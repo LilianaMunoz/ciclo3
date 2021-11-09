@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import co.usa.ciclo3.ciclo3.model.Admin;
 import co.usa.ciclo3.ciclo3.repository.AdminRepository;
 
-
 @Service
 public class AdminService {
     
@@ -33,5 +32,30 @@ public class AdminService {
                 return a;
             }
         }
+    }
+
+    public Admin update(Admin a){
+        if(a.getId()!=null){
+            Optional<Admin>g=adminRepository.getAdmin(a.getId());
+            if(!g.isEmpty()){
+                if(a.getName()!=null){
+                    g.get().setName(a.getName());
+                }
+                if(a.getPassword()!=null){
+                    g.get().setPassword(a.getPassword());
+                } 
+                return adminRepository.save(g.get());
+            }
+        }
+            return a;
+    }
+
+    public boolean deleteAdmin(int id){
+        Optional<Admin>a=getAdmin(id);
+        if(!a.isEmpty()){
+            adminRepository.delete(a.get());
+            return true;
+        }
+        return false;
     }
 }

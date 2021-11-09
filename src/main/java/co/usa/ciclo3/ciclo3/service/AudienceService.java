@@ -33,4 +33,35 @@ public class AudienceService {
             }
         }
     }
+
+    public Audience update(Audience a){
+        if(a.getId()!=null){
+            Optional<Audience>g=audienceRepository.getAudience(a.getId());
+            if(!g.isEmpty()){
+                if(a.getName()!=null){
+                    g.get().setName(a.getName());
+                }
+                if(a.getOwner()!=null){
+                    g.get().setOwner(a.getOwner());
+                }
+                if(a.getCapacity()!=null){
+                    g.get().setCapacity(a.getCapacity());
+                } 
+                if(a.getDescription()!=null){
+                    g.get().setDescription(a.getDescription());
+                } 
+                return audienceRepository.save(g.get());
+            }
+        }
+            return a;
+    }
+    
+    public boolean deleteAudience(int id){
+        Optional<Audience>a=getAudience(id);
+        if(!a.isEmpty()){
+            audienceRepository.delete(a.get());
+            return true;
+        }
+        return false;
+    }
 }

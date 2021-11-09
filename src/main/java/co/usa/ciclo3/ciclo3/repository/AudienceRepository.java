@@ -24,4 +24,8 @@ public class AudienceRepository {
     public Audience save (Audience a){
         return audienceCrudRepository.save(a);
     }
+
+    public void delete (Audience a){
+        audienceCrudRepository.delete(a);
+    }
 }

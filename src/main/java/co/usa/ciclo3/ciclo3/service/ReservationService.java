@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import co.usa.ciclo3.ciclo3.model.Reservation;
 import co.usa.ciclo3.ciclo3.repository.ReservationRepository;
 
@@ -33,5 +32,30 @@ public class ReservationService {
                 return a;
             }
         }
+    }
+
+    public Reservation update(Reservation a){
+        if(a.getIdReservation()!=null){
+            Optional<Reservation>g=reservationRepository.getReservation(a.getIdReservation());
+            if(!g.isEmpty()){
+                if(a.getStartDate()!=null){
+                    g.get().setStartDate(a.getStartDate());
+                }
+                if(a.getDevolutionDate()!=null){
+                    g.get().setDevolutionDate(a.getDevolutionDate());
+                }
+                return reservationRepository.save(g.get());
+            }
+        }
+            return a;
+    }
+
+    public boolean deleteReservation(int id){
+        Optional<Reservation>a=getReservation(id);
+        if(!a.isEmpty()){
+            reservationRepository.delete(a.get());
+            return true;
+        }
+        return false;
     }
 }
