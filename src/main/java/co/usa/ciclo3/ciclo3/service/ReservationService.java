@@ -1,10 +1,12 @@
 package co.usa.ciclo3.ciclo3.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.usa.ciclo3.ciclo3.model.Reservation;
+import co.usa.ciclo3.ciclo3.model.report.ContReservationStatus;
 import co.usa.ciclo3.ciclo3.repository.ReservationRepository;
 
 @Service
@@ -57,5 +59,15 @@ public class ReservationService {
             return true;
         }
         return false;
+    }
+
+    public List<Reservation> getReservationByDate(Date startDate, Date endDate){
+        return reservationRepository.getReservationByDate(startDate, endDate);
+    }
+
+    public ContReservationStatus getReportStatus(){
+        int completed = reservationRepository.getCountByStatus("completed");
+        int cancelled = reservationRepository.getCountByStatus("cancelled");
+        return new ContReservationStatus(completed, cancelled);
     }
 }

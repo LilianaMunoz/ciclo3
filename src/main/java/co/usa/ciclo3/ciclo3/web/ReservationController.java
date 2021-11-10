@@ -1,8 +1,10 @@
 package co.usa.ciclo3.ciclo3.web;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import co.usa.ciclo3.ciclo3.model.Reservation;
+import co.usa.ciclo3.ciclo3.model.report.ContReservationStatus;
 import co.usa.ciclo3.ciclo3.service.ReservationService;
 
 @RestController
@@ -52,5 +55,17 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteReservation(@PathVariable("id")int id){
         return reservationService.deleteReservation(id);
+    }
+
+    @GetMapping("/report-dates/{startDate}/{endDate}")
+    public List<Reservation> getReservationByDate(
+        @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, 
+        @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
+        return reservationService.getReservationByDate(startDate, endDate);
+    }
+
+    @GetMapping("/report-status")
+    public ContReservationStatus getReportStatus(){
+        return reservationService.getReportStatus();
     }
 }

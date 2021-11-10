@@ -1,5 +1,6 @@
 package co.usa.ciclo3.ciclo3.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,13 @@ public class ReservationRepository {
 
     public void delete (Reservation a){
         reservationCrudRepository.delete(a);
+    }
+
+    public List<Reservation> getReservationByDate(Date startDate, Date endDate){
+        return reservationCrudRepository.findAllByStartDateAfterAndStartDateBefore(startDate, endDate);
+    }
+
+    public int getCountByStatus (String status){
+        return reservationCrudRepository.findAllByStatus(status).size();
     }
 }
